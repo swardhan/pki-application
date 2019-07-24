@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PKI-Create Certificate</title>
+	<script src="{{ url_for('static', filename='jquery-3.4.1.js') }}"></script>
+</head>
+<body>
+	<h3>Create Certificate</h3>
+	<form id="createForm">
+		URL: <input type="text" name="url">
+		Passphrase: <input type="password" name="passphrase">
+		<input type="submit" value="Create">
+	</form>
+
+	<script>
+		$('#createForm').on('submit', function(e){
+			e.preventDefault();
+			var url = e.target["url"].value;
+			var passphrase = e.target["passphrase"].value
+			var data = {
+				url: url,
+				passphrase: passphrase
+			};
+			console.log(JSON.stringify(data));
+			$.ajax({
+				data: JSON.stringify(data),
+				type: 'post',
+				url: '/create_cert',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(res){
+					alert(res.result);
+				}
+			})
+		});
+	</script>
+</body>
+</html>

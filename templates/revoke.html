@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PKI-Revoke Certificate</title>
+	<script src="{{ url_for('static', filename='jquery-3.4.1.js') }}"></script>
+</head>
+<body>
+	<h3>Revoke Certificate</h3>
+	<form id="revokeForm">
+		URL: <input type="text" name="url">
+		<input type="submit" value="Revoke">
+	</form>
+
+	<script>
+		$('#revokeForm').on('submit', function(e){
+			e.preventDefault();
+			var url = e.target["url"].value;
+			var data = {
+				url: url
+			};
+			console.log(JSON.stringify(data));
+			$.ajax({
+				data: JSON.stringify(data),
+				type: 'post',
+				url: '/revoke_cert',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(res){
+					alert(res.result);
+				}
+			})
+		});
+	</script>
+</body>
+</html>
